@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChefVR - Immersive VR Cooking Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF5A5F; /* Vibrant coral */
+            --secondary: #00A896; /* Teal */
+            --accent: #F7B267; /* Peach */
+            --dark: #2D3047; /* Navy */
+            --light: #F8F9FA; /* Off-white */
+            --text: #333333;
+            --text-light: #6C757D;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--dark), var(--secondary));
+            color: white;
+            padding: 4rem 0 6rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo {
+    width: 140px;
+    height: 140px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+        
+        .logo:hover {
+            transform: rotate(15deg) scale(1.05);
+        }
+        
+        .logo img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .tagline {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 6rem 0;
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--dark);
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4rem;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            font-size: 1.1rem;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+        
+        .about-image::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--primary);
+            border-radius: 10px;
+            top: -20px;
+            left: -20px;
+            z-index: -1;
+        }
+        
+        .about-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.03);
+        }
+        
+        .team {
+            background-color: white;
+            position: relative;
+        }
+        
+        .team::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, var(--light), white);
+            z-index: 1;
+        }
+        
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .member {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            width: 280px;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .member-image {
+            height: 250px;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .member-image::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        
+        .member-image::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        
+        .member-info {
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .member-info h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+        
+        .member-info p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        
+        .member-role {
+            color: var(--primary);
+            font-weight: 600;
+            margin: 1rem 0;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .features {
+            background-color: var(--light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .features::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to top, white, rgba(255,255,255,0));
+            z-index: 1;
+        }
+        
+        .feature-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            width: 320px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+        
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .feature-card h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 4rem 0 2rem;
+            position: relative;
+            clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%);
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+            opacity: 0.2;
+        }
+        
+        footer p {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            section {
+                padding: 4rem 0;
+            }
+            
+            .about-content {
+                gap: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 3rem 0 5rem;
+                clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            section {
+                padding: 3rem 0;
+            }
+            
+            .member {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .feature-card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            header {
+                padding: 2rem 0 4rem;
+            }
+            
+            .logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .cta-button {
+                padding: 0.8rem 2rem;
+                font-size: 0.9rem;
+            }
+            
+            footer {
+                clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
+                padding: 3rem 0 2rem;
+            }
+        }
+        /* Adjustments for 1003px screens */
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .logo {
+                width: 110px;  /* Optimized size for 1003px */
+                height: 110px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.15); /* Lighter shadow */
+            }
+            
+            .logo img {
+                width: 70%;  /* Better proportion at this size */
+            }
+            
+            .logo-container {
+                margin-bottom: 1rem; /* Tighter spacing */
+            }
+            .logo:hover {
+        transform: scale(1.08); /* More subtle hover than desktop */
+        background: linear-gradient(135deg, #FF5A5F, #FFE66D);
+        }
+            
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <img src="logo.jpg" alt="ChefVR - VR Cooking Instructor" width="120">
+            </div>
+        </div>
+        <h1>ChefVR</h1>
+        <p class="tagline">Revolutionizing culinary education through immersive virtual reality experiences</p>
+        <a href="#about" class="cta-button">Discover More</a>
+    </header>
+    
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Our Vision</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>ChefVR represents a revolutionary leap in cooking education, combining cutting-edge virtual reality technology with expert culinary instruction to create an unparalleled learning experience.</p>
+                    <p>Our platform transports users into fully interactive 3D kitchen environments where they can practice techniques, experiment with recipes, and receive real-time feedback—all without the fear of making mistakes or wasting ingredients.</p>
+                    <p>With haptic feedback gloves and motion tracking, ChefVR delivers an incredibly realistic cooking simulation that builds muscle memory and confidence before users ever step into a real kitchen.</p>
+                    <a href="#team" class="cta-button">Meet the Innovators</a>
+                </div>
+                <div class="about-image">
+                    <!-- Replace with your VR.png file -->
+                    <img src="VR.png" alt="ChefVR Cooking Simulation" width="500">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="features">
+        <div class="container">
+            <h2>Why ChefVR Stands Out</h2>
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🍳</div>
+                    <h3>Master-Class Instruction</h3>
+                    <p>Learn from Michelin-star chefs through personalized VR lessons that adapt to your skill level and learning pace.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Real-Time Correction</h3>
+                    <p>Our AI analyzes your technique and provides instant visual and haptic feedback to perfect your skills.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Global Kitchen Access</h3>
+                    <p>Experience authentic cooking environments from Italian trattorias to Japanese sushi bars without leaving home.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="team" class="team">
+        <div class="container">
+            <h2>The Culinary Tech Pioneers</h2>
+            <div class="team-members">
+                <!-- Replace with your actual team members -->
+                <div class="member">
+                    <div class="member-image">
+                        👨‍💻
+                    </div>
+                    <div class="member-info">
+                        <h3>Falgun</h3>
+                        <p class="member-role">CEO</p>
+                        
+                    </div>
+                </div>
+                <div class="member">
+                    <div class="member-image">
+                        👨‍💻
+                    </div>
+                    <div class="member-info">
+                        <h3>Ashish</h3>
+                        <p class="member-role">CTO</p>
+                        
+                    </div>
+                </div>
+                <div class="member">
+                    <div class="member-image">
+                        👩‍💻
+                    </div>
+                    <div class="member-info">
+                        <h3>Devananditha</h3>
+                        <p class="member-role">CFO</p>
+                        
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ChefVR. All rights reserved.</p>
+            <p>Developed for Entrepreneurship Course - VIT AP</p>
+            <p>Contact: chefvr@gmail.com</p>
+        </div>
+    </footer>
+</body>
+</html>
